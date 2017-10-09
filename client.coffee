@@ -16,7 +16,9 @@ if Meteor.isClient
 					m 'li', m 'a', m 'b', 'Admin Menu'
 					_.map kabs, (i) -> m 'li', m 'ul.collapsible', m 'li', [
 						m '.collapsible-header', m '.black-text', _.startCase i
-						_.map kawasan, (j) -> m 'a.collapsible-body', _.upperCase j
+						_.map kawasan, (j) -> m 'a.collapsible-body',
+							href: '/peta/'+i+'/'+j
+						, _.upperCase j
 					]
 				]
 			]
