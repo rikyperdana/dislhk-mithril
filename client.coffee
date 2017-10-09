@@ -23,11 +23,14 @@ if Meteor.isClient
 
 	comp.peta =
 		config: ->
+			sel =
+				kab: m.route.param 'kab'
+				kaw: m.route.param 'kaw'
 			map = L.map 'peta',
 				center: [0.5, 101]
 				zoom: 8
 				zoomControl: false
-			geojson = L.geoJson.ajax '/maps/dumai_apl.geojson',
+			geojson = L.geoJson.ajax '/maps/'+sel.kab+'_'+sel.kaw+'.geojson',
 				style: (feature) ->
 					fillColor: '#'+Math.random().toString(16).substr(-6)
 					weight: 2
@@ -54,10 +57,13 @@ if Meteor.isClient
 							content += '<b>Data '+key+'</b>'+': '+val+'<br/>'
 						content
 			geojson.addTo map
+			topo = L.tileLayer.provider 'OpenTopoMap'
+			topo.addTo map
 		view: ->
 			m '#peta',
 				config: this.config
 				style: height: '600px'
 
-	m.mount document.body, comp.layout
-
+	m.route.mode = 'pathname'
+	m.route document.body, '/peta/bengkalis/apl',
+		'/peta/:kab/:kaw': comp.layout
