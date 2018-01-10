@@ -84,6 +84,27 @@ if Meteor.isClient
 				config: this.config
 				style: height: '600px'
 
+	comp.upload =
+		controller: reactive ->
+			this.uploader = ->
+				type: 'file'
+				onchange: (event) ->
+					reader = new FileReader()
+					reader.onload = ->
+						console.log JSON.parse reader.result
+					reader.readAsText event.target.files[0], 'UTF-8'
+		view: (ctrl) ->
+			m '.container'
+			, m '.file-field.input-field', [
+				m '.btn', [
+					m 'span', 'Unggah Peta'
+					m 'input', ctrl.uploader()
+				]
+				m '.file-path-wrapper'
+				, m 'input.file-path.validate',
+					type: 'text', placeholder: 'Unggah geojson'
+			]
+
 	comp.beranda =
 		list: [
 			title: 'Panduan Aplikasi'
@@ -96,8 +117,10 @@ if Meteor.isClient
 		]
 		config: ->
 			$('.slider').slider()
-		view: ->
-			m '.slider', config: this.config, m 'ul.slides', _.map this.list, (i) ->
+		view: (ctrl) ->
+			m '.slider', config: this.config
+			, m 'ul.slides'
+			, _.map this.list, (i) ->
 				m 'li', [
 					m 'img', src: i.img
 					m '.caption.center-align', [
@@ -107,7 +130,8 @@ if Meteor.isClient
 				]
 
 	m.route.mode = 'pathname'
-	m.route document.body, '/peta/bengkalis/apl',
+	m.route document.body, '/beranda',
 		'/peta/:kab/:kaw': comp.page 'peta'
 		'/beranda': comp.page 'beranda'
 		'/login': comp.page 'login'
+		'/upload': comp.page 'upload'
