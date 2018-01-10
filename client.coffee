@@ -11,12 +11,14 @@ if Meteor.isClient
 					obj = {}; _.map ['username', 'password'], (i) ->
 						obj[i] = event.target.children[i].value
 					Meteor.loginWithPassword obj.username, obj.password
-		view: (ctrl) -> m '.container'
-			, m 'form', ctrl.formEvent(), [
+		view: (ctrl) -> m '.container', [
+			m 'h5', 'Login Pengguna'
+			m 'form', ctrl.formEvent(), [
 				m 'input', name: 'username', placeholder: 'Username'
 				m 'input', name: 'password', placeholder: 'Password', type: 'password'
 				m 'input.btn', type: 'submit', value: 'Login'
 			]
+		]
 
 	comp.menu =
 		init: ->
