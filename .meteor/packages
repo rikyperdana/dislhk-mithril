@@ -21,3 +21,4 @@ spectrum:mithril-meteor
 stevezhu:lodash
 bevanhunt:leaflet
 materialize:materialize@=0.97.6
+accounts-password
